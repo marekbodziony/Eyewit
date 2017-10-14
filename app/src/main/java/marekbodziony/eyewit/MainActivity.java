@@ -18,6 +18,9 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.Date;
 
@@ -49,7 +52,6 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         getSupportActionBar().hide();   // hide actionbar
 
         recordBtn = (ImageButton) findViewById(R.id.record_btn);
@@ -88,7 +90,16 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 String response ="";
-                 {
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("lat","13,0000000");
+                    json.put("lon","52,0000000");
+                    json.put("date","1234505");
+                    json.put("video_url","http://www.google.pl");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                {
                      new Api.AsyncTask(api) {
                          @Override
                          protected void onPostExecute(String response) {
@@ -96,7 +107,7 @@ public class MainActivity extends AppCompatActivity{
 //                             Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
                              Log.i("Marek",response);
                          }
-                     }.execute("json");
+                     }.execute(json.toString());
                  }
             }
         });
