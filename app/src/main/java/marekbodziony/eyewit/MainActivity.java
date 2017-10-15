@@ -112,6 +112,8 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 // display help_me information
+                Intent helpIntent = new Intent(getApplicationContext(),HelpMeActivity.class);
+                startActivity(helpIntent);
             }
         });
     }
