@@ -162,7 +162,8 @@ public class MainActivity extends AppCompatActivity{
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.i("Marek","Error! Video wasn't send to Firebase! Check connection!");
+                            Log.i("Marek", "Error! Video wasn't send to Firebase! Check connection with Firebase!");
+                            Log.i("Marek", "Error = " + e.getMessage());
                         }
                     });
         }
@@ -175,6 +176,7 @@ public class MainActivity extends AppCompatActivity{
         json.put("lon",inc.getLon());
         json.put("date",String.valueOf(new Date().getTime()));
         json.put("video_url",inc.getVideoURL());
+        json.put("important",0);
         Log.i("Marek","JSON = " + json.toString());
         return json;
     }

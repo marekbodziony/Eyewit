@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "246586071695",
-    "firebase_url": "https://friendlychat-59b28.firebaseio.com",
-    "project_id": "friendlychat-59b28",
-    "storage_bucket": "friendlychat-59b28.appspot.com"
+    "project_number": "876908756521",
+    "firebase_url": "https://warsawforkids.firebaseio.com",
+    "project_id": "warsawforkids",
+    "storage_bucket": "warsawforkids.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:246586071695:android:64e58dacc0483faa",
+        "mobilesdk_app_id": "1:876908756521:android:5ab5e6d29dcfca14",
         "android_client_info": {
-          "package_name": "com.google.firebase.udacity.friendlychat"
+          "package_name": "marekbodziony.warsawforkids"
         }
       },
       "oauth_client": [
         {
-          "client_id": "246586071695-6avg0956js487jgqbp7rg5jg491dsgi1.apps.googleusercontent.com",
+          "client_id": "876908756521-9q9h0fqkhevja98uth3k10bm61u65d18.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.google.firebase.udacity.friendlychat",
-            "certificate_hash": "8003c1f2d6cbf14c73ab378319a8b35ebac7658a"
+            "package_name": "marekbodziony.warsawforkids",
+            "certificate_hash": "71e5ba499783660662202ad42279408ec5d19615"
           }
         },
         {
-          "client_id": "246586071695-f548mkqcfs4f8aqhfkqu3v6oaqsu34cs.apps.googleusercontent.com",
+          "client_id": "876908756521-sf5561a725c2r30ugb6nuu56jo3aftpt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC2PWaWHqwacOkS-B2mhcNtnLa-yXM1y0w"
+          "current_key": "AIzaSyAZDgtlqpVLPTK6KAGT0-uiE7nPLNqf4vI"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "246586071695-f548mkqcfs4f8aqhfkqu3v6oaqsu34cs.apps.googleusercontent.com",
+              "client_id": "876908756521-sf5561a725c2r30ugb6nuu56jo3aftpt.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -52,51 +52,20 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:246586071695:android:9296e1b64dfa41e5",
-        "android_client_info": {
-          "package_name": "marekbodziony.firebasevideo"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "246586071695-f548mkqcfs4f8aqhfkqu3v6oaqsu34cs.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC2PWaWHqwacOkS-B2mhcNtnLa-yXM1y0w"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:246586071695:android:dc21e54c29b56b54",
+        "mobilesdk_app_id": "1:876908756521:android:dc21e54c29b56b54",
         "android_client_info": {
           "package_name": "marekbodziony.eyewit"
         }
       },
       "oauth_client": [
         {
-          "client_id": "246586071695-f548mkqcfs4f8aqhfkqu3v6oaqsu34cs.apps.googleusercontent.com",
+          "client_id": "876908756521-sf5561a725c2r30ugb6nuu56jo3aftpt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC2PWaWHqwacOkS-B2mhcNtnLa-yXM1y0w"
+          "current_key": "AIzaSyAZDgtlqpVLPTK6KAGT0-uiE7nPLNqf4vI"
         }
       ],
       "services": {

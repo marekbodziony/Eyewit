@@ -14,9 +14,8 @@ import okhttp3.Response;
 
 public class Api {
 
-//    private static final String SERVER_URL = "http://192.168.43.76:8081/home/AddEvent";
-    private static final String SERVER_URL = "http://192.168.0.100:8081/home/addevent";
-    //public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final String SERVER_URL = "http://eyewit.azurewebsites.net/home/addevent";
+//    private static final String SERVER_URL = "http://192.168.0.100:8081/home/addevent";
 
     OkHttpClient client = new OkHttpClient();
 
