@@ -16,6 +16,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,11 +42,13 @@ public class MainActivity extends AppCompatActivity{
     private static final int RECORD_VIDEO_REQUEST_CODE = 1;
     private static final int PERMISSION_FINE_LOCATION_REQUEST_CODE = 2;
     private static final int TURN_ON_GPS_REQUEST_CODE = 3;
+    private static final String SENDING_DATA_IN_PROGRESS = "sending in progress";
 
     private ImageButton recordBtn;
     private Button helpBtn;
     private TextView gpsWarningTextView;
     private TextView clickTimesTextView;
+    private ProgressBar sendingProgress;
 
     private int clickTimes = 3;
 
@@ -77,12 +80,12 @@ public class MainActivity extends AppCompatActivity{
         clickTimesTextView = (TextView) findViewById(R.id.click_times_val);
         gpsWarningTextView = (TextView) findViewById(R.id.gps_warning_txt);
         helpBtn = (Button) findViewById(R.id.help_btn);
+        sendingProgress = (ProgressBar) findViewById(R.id.sending_progress);
 
         clickTimesTextView.setText(String.valueOf(clickTimes));
 
         // show GPS warning
         gpsWarningTextView.setVisibility(View.INVISIBLE);
-
 
         incident = new Incident();
         api = new Api();
@@ -97,6 +100,7 @@ public class MainActivity extends AppCompatActivity{
                     clickTimesTextView.setText(String.valueOf(--clickTimes));
                 }else {
                     Intent recordIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                    //recordIntent.putExtra(android.provider.MediaStore.EXTRA_VIDEO_QUALITY, 0);         <--  to lower video quality
                     if (recordIntent.resolveActivity(getPackageManager()) != null){
                         startActivityForResult(recordIntent, RECORD_VIDEO_REQUEST_CODE);
                     }
@@ -124,6 +128,7 @@ public class MainActivity extends AppCompatActivity{
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            sendingProgress.setVisibility(View.VISIBLE);
                             Log.i("Marek","Sending video to Firebase...");
                         }
                     })
@@ -145,7 +150,9 @@ public class MainActivity extends AppCompatActivity{
                                 @Override
                                 protected void onPostExecute(String response) {
                                     super.onPostExecute(response);
+                                    sendingProgress.setVisibility(View.INVISIBLE);
                                     Log.i("Marek","Sending JSON to server = " + response);
+                                    Toast.makeText(MainActivity.this, "Wysłano", Toast.LENGTH_LONG).show();
                                 }
                             }.execute(json.toString());
                         }
@@ -164,7 +171,7 @@ public class MainActivity extends AppCompatActivity{
         JSONObject json = new JSONObject();
         json.put("lat",inc.getLat());
         json.put("lon",inc.getLon());
-        json.put("date",new Date().getTime());
+        json.put("date",String.valueOf(new Date().getTime()));
         json.put("video_url",inc.getVideoURL());
         Log.i("Marek","JSON = " + json.toString());
         return json;
