@@ -3,6 +3,7 @@ package marekbodziony.eyewit;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -20,10 +21,17 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 import marekbodziony.eyewit.api.Api;
 import marekbodziony.eyewit.model.Incident;
@@ -45,15 +53,25 @@ public class MainActivity extends AppCompatActivity{
 
     private Api api;
 
+    // GoogleMAps Location
     private FusedLocationProviderClient locationProviderClient;
     private String lat;
     private String lon;
+
+    // Firebase storage
+    private FirebaseStorage firebaseStorage;
+    private StorageReference videosStorage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();   // hide actionbar
+
+        // Firebase
+        firebaseStorage = FirebaseStorage.getInstance();
+        videosStorage = firebaseStorage.getReference().child("videos");
 
         recordBtn = (ImageButton) findViewById(R.id.record_btn);
         clickTimesTextView = (TextView) findViewById(R.id.click_times_val);
@@ -98,31 +116,57 @@ public class MainActivity extends AppCompatActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         clickTimes = 3;
         clickTimesTextView.setText(String.valueOf(clickTimes));
-        if (requestCode == RECORD_VIDEO_REQUEST_CODE && resultCode == RESULT_OK){
-            JSONObject json = new JSONObject();
-
-            // send video and get video_url from Firebase
-            //
-            //
-
-            try {
-                json.put("lat","13,0000000");
-                json.put("lon","52,0000000");
-                json.put("date","1234505");
-                json.put("video_url","http://www.google.pl");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            // send json
-            new Api.AsyncTask(api) {
-                @Override
-                protected void onPostExecute(String response) {
-                    super.onPostExecute(response);
-                    Log.i("Marek",response);
-                }
-            }.execute(json.toString());
+        if (requestCode == RECORD_VIDEO_REQUEST_CODE && resultCode == RESULT_OK && data != null){
+            Uri videoUri = data.getData();
+            // send video, get video_url and send in JSON
+            StorageReference videoRef = videosStorage.child(videoUri.getLastPathSegment());
+            videoRef.putFile(videoUri)
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            Log.i("Marek","Sending video to Firebase...");
+                        }
+                    })
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            JSONObject json = new JSONObject();
+                            String vidUrl = taskSnapshot.getDownloadUrl().toString();
+                            incident.setVideoURL(vidUrl);
+                            Log.i("Marek","OK! Video was send to Firebase!");
+                            Log.i("Marek","OK! Video URL = " + vidUrl);
+                            try {
+                                json = putIncidentToJson(incident);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            // send json
+                            new Api.AsyncTask(api) {
+                                @Override
+                                protected void onPostExecute(String response) {
+                                    super.onPostExecute(response);
+                                    Log.i("Marek","Sending JSON to server = " + response);
+                                }
+                            }.execute(json.toString());
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.i("Marek","Error! Video wasn't send to Firebase! Check connection!");
+                        }
+                    });
         }
+    }
+
+    // parse Incident to JSON
+    private JSONObject putIncidentToJson(Incident inc) throws JSONException{
+        JSONObject json = new JSONObject();
+        json.put("lat",inc.getLat());
+        json.put("lon",inc.getLon());
+        json.put("date",new Date().getTime());
+        json.put("video_url",inc.getVideoURL());
+        return json;
     }
 
     // ask for location and permission if needed
@@ -138,7 +182,11 @@ public class MainActivity extends AppCompatActivity{
                 @Override
                 public void onSuccess(Location location) {
                     if (location != null) {
-                        Log.i("Marek","lat="+location.getLatitude() + ", Lon="+location.getLongitude());
+                        lat = String.valueOf(location.getLatitude());
+                        lon = String.valueOf(location.getLongitude());
+                        incident.setLat(lat);
+                        incident.setLon(lon);
+                        Log.i("Marek","lat="+lat + ", Lon="+lon);
                         hideGpsWarning();
                     }
                     else {
