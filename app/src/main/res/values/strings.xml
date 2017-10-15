@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Eyewit</string>
+    <string name="info_about_txt">Zwiększ swoje bezpieczeństwo używając aplikacji iWitness</string>
+    <string name="info_1_txt">1. Kliknij 3-krotnie, aby uruchomić nagrywanie</string>
+    <string name="info_2_txt">2. Nagraj zdarzenie</string>
+    <string name="info_3_txt">3. Plik video z danymi (czas, lokalizacja gps) zostanie automatycznie przesłany do serwisu</string>
 </resources>

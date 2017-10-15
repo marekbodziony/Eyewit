@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity{
 
     private ImageButton recordBtn;
     private Button helpBtn;
+    private ImageButton infoBtn;
     private TextView gpsWarningTextView;
     private TextView clickTimesTextView;
     private ProgressBar sendingProgress;
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity{
         clickTimesTextView = (TextView) findViewById(R.id.click_times_val);
         gpsWarningTextView = (TextView) findViewById(R.id.gps_warning_txt);
         helpBtn = (Button) findViewById(R.id.help_btn);
+        infoBtn = (ImageButton) findViewById(R.id.info_btn);
         sendingProgress = (ProgressBar) findViewById(R.id.sending_progress);
 
         clickTimesTextView.setText(String.valueOf(clickTimes));
@@ -114,6 +116,12 @@ public class MainActivity extends AppCompatActivity{
                 // display help_me information
                 Intent helpIntent = new Intent(getApplicationContext(),HelpMeActivity.class);
                 startActivity(helpIntent);
+            }
+        });
+        infoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),InfoActivity.class));
             }
         });
     }
