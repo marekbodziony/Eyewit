@@ -166,6 +166,7 @@ public class MainActivity extends AppCompatActivity{
         json.put("lon",inc.getLon());
         json.put("date",new Date().getTime());
         json.put("video_url",inc.getVideoURL());
+        Log.i("Marek","JSON = " + json.toString());
         return json;
     }
 

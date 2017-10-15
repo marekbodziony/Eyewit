@@ -6,9 +6,9 @@ package marekbodziony.eyewit.model;
 
 public class Incident {
 
-    private  String lat = "00";
-    private  String lon = "00";
-    private long time = 0;
+    private  String lat;
+    private  String lon;
+    private long time;
     private String videoURL;
 
     public Incident(){}
